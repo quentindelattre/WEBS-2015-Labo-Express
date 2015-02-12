@@ -26,7 +26,7 @@ var config = {
     app: {
       name: 'experiments'
     },
-    port: 3000,
+    port: process.env.PORT,
     db: process.env.MONGODB_CON_STRING
   }
 };
