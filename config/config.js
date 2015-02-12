@@ -27,7 +27,7 @@ var config = {
       name: 'experiments'
     },
     port: 3000,
-    db: 'mongodb://localhost/citizen-engagement-node-skeleton'
+    db: process.env.MONGODB_CON_STRING
   }
 };
 
