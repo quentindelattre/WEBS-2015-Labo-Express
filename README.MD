@@ -71,7 +71,7 @@ The appliation is runing on `http://localhost:3000`. You should be able to acces
 6. Retrieve the connection string present on the main page of the admin console from the addon. It should looks like:
 	- Connection string example: `mongodb://<dbuser>:<dbpassword>@<name>.mongolab.com:39271/<user>
 7. Once user/password defined and connection string retrieved, you can run the following command in your app directory
-	- cmd: `heroku config:set MONGODB_CON_STRING=<connectionStringWithValuesReplaced`
+	- cmd: `heroku config:set MONGODB_CON_STRING=<connectionStringWithValuesReplaced>`
 8. Do the same to setup the `production` environment mode
 	- cmd: `heroku config:set NODE_ENV=production`
 9. Finally, you can push your code to Heroku
