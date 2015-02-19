@@ -9,7 +9,7 @@ module.exports = function (app) {
   app.use('/api/actions', router);
 };
 
-function convertMongoUser(action) {
+function convertMongoAction(action) {
 	//return user.toObject({ transform: true })
 
 
@@ -26,11 +26,12 @@ router.route('/')
 		Action.find().populate("author").exec(function (err, actions) {
 		  if (err) return next(err);
 		  res.json(_.map(actions, function(action) {
-				return convertMongoUser(action);
+				return convertMongoAction(action);
 			}));
 		});
 	})
 
+/*
 	.post(function (req, res, next) {
 		var action = new Action({
 			arthor: req.body.author,
@@ -47,7 +48,7 @@ router.route('/')
 router.route('/:id')
 	.get(function(req, res, next) {
 		Action.findById(req.params.id).populate("author").exec(function(err, action) {
-			res.json(convertMongoUser(action));
+			res.json(convertMongoAction(action));
 		});
 	})
 
@@ -59,7 +60,7 @@ router.route('/:id')
 			
 
 			action.save(function(err, actionSaved) {
-				res.json(convertMongoUser(actionSaved));
+				res.json(convertMongoAction(actionSaved));
 			});
 		});
 	})
@@ -69,3 +70,4 @@ router.route('/:id')
 			res.status(204).end();
 		});
 	});
+*/

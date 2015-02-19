@@ -3,7 +3,7 @@ var mongoose = require('mongoose'),
 
 var ActionSchema = new Schema({
   author: { type: Schema.Types.ObjectId, ref: 'User' },
-  date: String,
+  date: { type: Date, default: Date.now },
 	actionType: [ String ]
 });
 
