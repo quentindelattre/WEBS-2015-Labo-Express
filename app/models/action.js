@@ -24,10 +24,7 @@ var ActionSchema = new Schema({
 //	delete ret['__v'];
 //}
 
-ActionSchema.virtual('date')
-  .get(function(){
-    return this._id.getTimestamp();
-  });
 
-mongoose.model('Action', UserSchema);
+
+mongoose.model('Action', ActionSchema);
 
