@@ -17,7 +17,7 @@ function convertMongoAction(action) {
 		id: action.id,
 		author: action.author,
 		date: action.date,
-		actionType: action.actionType
+		actionType: action.actionType,
 	}
 }
 

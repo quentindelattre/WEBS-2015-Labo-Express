@@ -7,5 +7,10 @@ var CommentSchema = new Schema({
   body: String
 });
 
+CommentSchema.pre('save', function(next){
+	this.date = new Date();
+	next();
+});
+
 mongoose.model('Comment', CommentSchema);
 

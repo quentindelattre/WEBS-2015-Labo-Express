@@ -7,9 +7,9 @@ var IssueSchema = new Schema({
   issuetype: { type: Schema.Types.ObjectId, ref: 'IssueType' },
   updatedOn: { type: Date, default: Date.now },
   description: String,
-  place: String,
-  status: [ String ],
-  comments: [CommentSchema],
+  place: {'Lat':String, 'Long': String},
+  issueStatus: [ String ],
+  comments: [ CommentSchema ],
   tags:[ String ],
   actions:{ type: Schema.Types.ObjectId, ref: 'Action' }
 });
@@ -22,11 +22,3 @@ IssueSchema.pre('save', function(next){
 });
 
 mongoose.model('Issue', IssueSchema);
-
-/*
-IssueType.find()
-    .populate('issuetype')
-    .exec(function(err, issues) {
-        // Do something with the issues
-    });
-*/
