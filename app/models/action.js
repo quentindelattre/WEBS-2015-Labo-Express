@@ -2,9 +2,10 @@ var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 var ActionSchema = new Schema({
+  issueId: { type: Schema.Types.ObjectId, ref: 'Action' },
   author: { type: Schema.Types.ObjectId, ref: 'User' },
   date: { type: Date, default: Date.now },
-  actionType: [ String ]
+  actionType: String
 });
 
 

@@ -9,12 +9,10 @@ module.exports = function (app) {
   app.use('/api/actions', router);
 };
 
-function convertMongoAction(action) {
-	//return user.toObject({ transform: true })
-
-
+var convertMongoAction = function convertMongoAction(action) {
 	return {
 		id: action.id,
+		issueId: action.issueId,
 		author: action.author,
 		date: action.date,
 		actionType: action.actionType,
@@ -23,7 +21,10 @@ function convertMongoAction(action) {
 
 router.route('/')
 	.get(function(req, res, next) {
-		Action.find().populate("author").exec(function (err, actions) {
+		Action.find()
+		.populate('issueId', 'issueType')
+		.populate('author', 'firstname lastname')
+		.exec(function (err, actions) {
 		  if (err) return next(err);
 		  res.json(_.map(actions, function(action) {
 				return convertMongoAction(action);
