@@ -24,7 +24,8 @@ var convertMongoAction = function convertMongoAction(action) {
 
 
 function convertMongoIssue(issue) {
-	//return issue.toObject({ transform: true })
+	var issue_actions = getAssociatedActions(issue);
+/* 	console.log(issue_actions); */
 	return {
 		id: issue.id,
 		author: issue.author,
@@ -35,8 +36,24 @@ function convertMongoIssue(issue) {
 		issueStatus: issue.issueStatus,
 		comments: issue.comments,
 		tags: issue.tags,
-		actions: issue.actions
+		actions: issue_actions
 	}
+}
+
+function getAssociatedActions(issue){
+	var issue_actions = [];
+	var issue_id = issue.id;
+	Action.find(Action.issueId=issue_id, function(err, issueAction){
+		var action_issue_id = Action.issueId;
+		if(issue_id==action_issue_id){
+			for(i=0; i<issueAction.length; i++){
+				issue_actions.push(convertMongoAction(issueAction[i]));
+			}
+			console.log(issue_actions);
+		}
+	});
+/* 	console.log(issue_actions); */
+	return issue_actions;
 }
 
 
@@ -45,10 +62,10 @@ router.route('/')
 		Issue.find()
 		.populate('author', 'firstname lastname')
 		.populate('issuetype', 'name description')
-		.populate('actions')
 		.exec(function(err, issues) {
 			if (err) return next(err);
 			res.json(_.map(issues, function(issue) {
+// 				getAssociatedActions(issue);
 				return convertMongoIssue(issue);
 			}));
 		});
@@ -73,40 +90,37 @@ router.route('/:id')
 			res.json(convertMongoIssue(issue));
 		});
 })
-/*
 	.put(function(req, res, next) {
 		Issue.findById(req.params.id, function(err, issue) {
-			issue.id = req.body.id;
-			issue.description = req.body.description;
+			issue.author = req.body.author,
+			issue.issuetype = req.body.issuetype,
+			issue.description = req.body.description,
+			issue.place = req.body.place,
+			issue.issueStatus = req.body.issueStatus,
+			issue.comments = req.body.comments,
+			issue.tags = req.body.tags
 
 			issue.save(function(err, issueSaved) {
 				res.json(convertMongoIssue(issueSaved));
 			});
 		});
 	})
-*/
 router.route('/:id/actions')
 	.get(function(req, res, next) {
 		Issue.findById(req.params.id)
-		.populate('actions')
 		.exec(function(err, issue) {
-// 			console.log(issue);
-// 			res.json(convertMongoIssue(issue));
+			res.json(convertMongoIssue(issue));
 	});
 	})
 	.post(function(req, res, next) {
-		require('./action');
 		Issue.findById(req.params.id)
-		.populate('actions')
 		.exec(function(err, issue) {
-			console.log(issue.id);
 			var action = new Action({
 				issueId: req.params.id,
 				author: req.body.author,
 				date: req.body.date,
 				actionType: req.body.actionType
 			});
-			console.log(err);
 			action.save(function(err, actionSaved) {
 				res.status(201)
 				.json(convertMongoAction(actionSaved));

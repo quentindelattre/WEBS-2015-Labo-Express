@@ -1,17 +1,18 @@
 var mongoose = require('mongoose'),
 	Schema = mongoose.Schema,
 	CommentSchema = mongoose.model('Comment').schema;
+	ActionSchema = mongoose.model('Action').schema;
 
 var IssueSchema = new Schema({
   author: { type: Schema.Types.ObjectId, ref: 'User' },
   issuetype: { type: Schema.Types.ObjectId, ref: 'IssueType' },
   updatedOn: { type: Date, default: Date.now },
   description: String,
-  place: {'Lat':String, 'Long': String},
+  place: String,
   issueStatus: [ String ],
   comments: [ CommentSchema ],
   tags:[ String ],
-  actions:{ type: Schema.Types.ObjectId, ref: 'Action' }
+  actions:[ ActionSchema ]
 });
 
 
