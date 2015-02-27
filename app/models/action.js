@@ -8,7 +8,10 @@ var ActionSchema = new Schema({
   actionType: String
 });
 
-
+ActionSchema.pre('save', function(next){
+	this.date = new Date();
+	next();
+});
 
 mongoose.model('Action', ActionSchema);
 
